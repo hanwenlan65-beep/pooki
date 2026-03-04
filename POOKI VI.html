@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>pooki / 噗物｜温柔高级 小型VI（v0.1）</title>
+  <style>
+    :root{
+      --bg: #F6F3EE;            /* 奶白背景 */
+      --paper: #FFFFFF;         /* 卡片底色 */
+      --ink: #171614;           /* 柔黑（避免纯黑） */
+      --muted: rgba(23,22,20,.62);
+      --line: rgba(23,22,20,.10);
+      --shadow: 0 18px 45px rgba(23,22,20,.08);
+      --radius: 18px;
+      --radius-lg: 28px;
+      --max: 1040px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, "PingFang SC","Hiragino Sans GB","Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color:var(--ink);
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(23,22,20,.06), transparent 55%),
+                  radial-gradient(900px 600px at 110% 10%, rgba(23,22,20,.05), transparent 55%),
+                  var(--bg);
+      line-height: 1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 90px}
+    .topbar{
+      position: sticky; top:0; z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(246,243,238,.65);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar .inner{
+      max-width:var(--max); margin:0 auto; padding:14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; min-width: 220px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px; background: var(--ink);
+      opacity:.9;
+    }
+    .brand h1{margin:0; font-size:14px; font-weight:650; letter-spacing:.2px}
+    .brand small{display:block; font-size:12px; color:var(--muted); margin-top:1px}
+    nav{
+      display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end;
+      font-size:13px; color:rgba(23,22,20,.78);
+    }
+    nav a{
+      padding:8px 10px; border-radius:999px;
+      border:1px solid transparent;
+    }
+    nav a:hover{border-color: var(--line); background: rgba(255,255,255,.55)}
+    header.hero{
+      padding:36px 0 10px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:22px;
+      align-items:start;
+    }
+    @media (max-width:900px){
+      header.hero{grid-template-columns:1fr; padding-top:22px}
+      .brand{min-width:auto}
+    }
+    .hero-card{
+      background: rgba(255,255,255,.65);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding:26px;
+      overflow:hidden;
+    }
+    .kicker{
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform: uppercase;
+      color: rgba(23,22,20,.55);
+    }
+    .hero-title{
+      margin:10px 0 8px;
+      font-size:28px;
+      line-height:1.25;
+      letter-spacing:.2px;
+    }
+    .hero-sub{
+      margin:0;
+      font-size:14px;
+      color: rgba(23,22,20,.72);
+      max-width: 58ch;
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+    .chip{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.65);
+      font-size:12px;
+      color: rgba(23,22,20,.72);
+    }
+    .logo-preview{
+      display:grid; gap:12px;
+    }
+    .preview{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    .preview h3{
+      margin:0 0 10px;
+      font-size:13px;
+      font-weight:650;
+      color: rgba(23,22,20,.78);
+    }
+    .imgbox{
+      border-radius: 14px;
+      border:1px dashed rgba(23,22,20,.18);
+      background: rgba(23,22,20,.02);
+      padding:14px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height: 140px;
+    }
+    .imgbox img{
+      max-width:100%;
+      height:auto;
+      display:block;
+    }
+    section{
+      margin-top:26px;
+      scroll-margin-top: 80px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background: rgba(255,255,255,.75);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding:18px 18px 16px;
+    }
+    .card h2{
+      margin:0 0 12px;
+      font-size:16px;
+      letter-spacing:.2px;
+    }
+    .card h3{
+      margin:14px 0 8px;
+      font-size:13px;
+      font-weight:650;
+      color: rgba(23,22,20,.82);
+    }
+    .meta{
+      font-size:12px;
+      color: rgba(23,22,20,.62);
+      margin-top:2px;
+    }
+    ul{margin:8px 0 0; padding-left:18px}
+    li{margin:6px 0}
+    .rule{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.6);
+      margin-top:10px;
+    }
+    .rule b{font-weight:700}
+    .code{
+      font-family: var(--mono);
+      font-size:12px;
+      background: rgba(23,22,20,.05);
+      border: 1px solid rgba(23,22,20,.10);
+      padding:10px 12px;
+      border-radius:14px;
+      overflow:auto;
+      color: rgba(23,22,20,.85);
+    }
+    .two{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width:680px){
+      .two{grid-template-columns:1fr}
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.6);
+      font-size:12px;
+      margin:6px 6px 0 0;
+      color: rgba(23,22,20,.74);
+    }
+    .tag .mini{width:8px; height:8px; border-radius:999px; background: var(--ink); opacity:.85}
+    footer{
+      margin-top:30px;
+      color: rgba(23,22,20,.58);
+      font-size:12px;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <h1>pooki / 噗物｜温柔高级 小型VI</h1>
+          <small>v0.1 · 外松内严 · 轻松但讲究</small>
+        </div>
+      </div>
+      <nav>
+        <a href="#tone">调性</a>
+        <a href="#logo">Logo系统</a>
+        <a href="#space">留白与尺寸</a>
+        <a href="#color">颜色</a>
+        <a href="#type">文字与语气</a>
+        <a href="#photo">摄影</a>
+        <a href="#material">材质工艺</a>
+        <a href="#templates">模板</a>
+        <a href="#checklist">检查清单</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-card">
+        <div class="kicker">POOKI MINI BRAND GUIDE</div>
+        <h2 class="hero-title">温柔高级，从“克制 + 呼吸感”开始</h2>
+        <p class="hero-sub">
+          这份小型VI用于你目前阶段：小红书内容、贴纸与包装、说明卡、展签与买手店陈列。
+          目标是把“轻松”做得高级，把“设计感”做得不疏离。
+        </p>
+        <div class="chips">
+          <span class="chip">温柔</span>
+          <span class="chip">克制</span>
+          <span class="chip">呼吸感</span>
+          <span class="chip">完成度</span>
+          <span class="chip">外松内严</span>
+        </div>
+        <div class="rule" style="margin-top:14px;">
+          <b>一句话定位：</b>pooki 噗物｜轻松，但讲究。
+        </div>
+      </div>
+
+      <div class="logo-preview">
+        <div class="preview">
+          <h3>展示版 Logo（Display）</h3>
+          <div class="imgbox">
+            <!-- 替换为你的展示版logo路径 -->
+            <img src="logo-display.png" alt="pooki display logo placeholder">
+          </div>
+          <div class="meta">用于：展签 / 海报 / 包装正面 / 贴纸主视觉 / 封面大留白角落</div>
+        </div>
+
+        <div class="preview">
+          <h3>日常版 Wordmark（推荐：pooki）</h3>
+          <div class="imgbox" style="min-height:110px;">
+            <!-- 替换为你的一行wordmark路径 -->
+            <img src="logo-wordmark.png" alt="pooki wordmark placeholder">
+          </div>
+          <div class="meta">用于：头像小尺寸 / 水印 / 产品底刻 / 说明卡 / 发货标签</div>
+        </div>
+      </div>
+    </header>
+
+    <section id="tone">
+      <div class="grid">
+        <div class="card">
+          <h2>1. 品牌调性</h2>
+          <div class="two">
+            <div>
+              <h3>关键词</h3>
+              <span class="tag"><span class="mini"></span>温柔</span>
+              <span class="tag"><span class="mini"></span>克制</span>
+              <span class="tag"><span class="mini"></span>呼吸感</span>
+              <span class="tag"><span class="mini"></span>完成度</span>
+              <span class="tag"><span class="mini"></span>外松内严</span>
+            </div>
+            <div>
+              <h3>禁用气质</h3>
+              <ul>
+                <li>可爱幼稚 / 过度卖萌</li>
+                <li>花哨装饰 / 赛博酷 / 过强街头硬核</li>
+                <li>信息太满、排版太吵</li>
+              </ul>
+            </div>
+          </div>
+          <div class="rule"><b>核心原则：</b>少即是多。先留白，再说话。</div>
+        </div>
+
+        <div class="card">
+          <h2>2. 品牌语言</h2>
+          <h3>推荐句式</h3>
+          <ul>
+            <li>轻松，但讲究。</li>
+            <li>把设计放回手边。</li>
+            <li>小物，也要刚刚好。</li>
+          </ul>
+          <h3>禁用词（会拉低高级感）</h3>
+          <ul>
+            <li>绝绝子 / 爆款 / 必入 / 巨好用 / 仙女 / 过度感叹号</li>
+          </ul>
+          <div class="rule"><b>写法建议：</b>少形容词，多事实（比例、边缘、结构、手感、稳定性）。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="logo">
+      <div class="grid">
+        <div class="card">
+          <h2>3. Logo系统</h2>
+          <h3>A. 展示版（Display Logo）</h3>
+          <ul>
+            <li>两行块面（POO / KI）</li>
+            <li>适合远距离识别与陈列</li>
+          </ul>
+          <h3>B. 日常版（Wordmark）</h3>
+          <ul>
+            <li>推荐：小写 <b>pooki</b>（更温柔高级）</li>
+            <li>用于小尺寸与细节位置</li>
+          </ul>
+          <h3>C. 小标（Stamp）</h3>
+          <ul>
+            <li>单字母 P 或 PK 方章（可后补）</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>4. Logo使用禁忌</h2>
+          <ul>
+            <li>不要加渐变、金属镜面、强阴影特效</li>
+            <li>不要把 Logo 贴着边放（破坏呼吸感）</li>
+            <li>小尺寸时不要用展示版强撑，换日常版</li>
+          </ul>
+          <div class="rule"><b>提示：</b>展示版适合“画面主角”；日常版适合“内容配角”。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="space">
+      <div class="grid">
+        <div class="card">
+          <h2>5. 安全留白（Safety Clear Space）</h2>
+          <p class="meta">以 <b>O 的内孔直径 d</b> 作为单位。</p>
+          <div class="rule"><b>最小安全区：</b>四周 ≥ 1d（展签/包装正面建议 ≥ 1.5d）</div>
+          <div class="code">单位定义：d = O 内孔直径</div>
+          <p class="meta">原则：宁可 Logo 小一点，也不要挤满画面。</p>
+        </div>
+
+        <div class="card">
+          <h2>6. 最小使用尺寸（Minimum Size）</h2>
+          <h3>展示版（两行块面）</h3>
+          <ul>
+            <li>屏幕端最小宽度：<b>160 px</b></li>
+            <li>印刷端最小宽度：<b>25 mm</b></li>
+          </ul>
+          <h3>日常版（pooki）</h3>
+          <ul>
+            <li>屏幕端最小宽度：<b>90 px</b></li>
+            <li>印刷端最小宽度：<b>15 mm</b></li>
+          </ul>
+          <div class="rule"><b>规则：</b>小于阈值 → 直接换日常版。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="color">
+      <div class="grid">
+        <div class="card">
+          <h2>7. 颜色系统（少而准）</h2>
+          <h3>主色</h3>
+          <ul>
+            <li><b>柔黑</b>：避免纯黑（#000），更温柔、耐看</li>
+            <li><b>奶白/雾白背景</b>：避免刺眼纯白</li>
+          </ul>
+          <h3>允许的配色组合</h3>
+          <ul>
+            <li>柔黑 on 奶白（默认）</li>
+            <li>奶白反白 on 柔黑（贴纸/箱贴/展牌）</li>
+            <li>柔黑 on 暖灰（质感图很稳）</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>8. 色彩禁忌</h2>
+          <ul>
+            <li>高饱和彩色大面积抢戏</li>
+            <li>强渐变、强发光、金属镜面特效</li>
+            <li>同一张图里出现过多颜色（>3）</li>
+          </ul>
+          <div class="rule"><b>一句话：</b>颜色越少，越像买手店。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="type">
+      <div class="grid">
+        <div class="card">
+          <h2>9. 排版与文字</h2>
+          <h3>层级原则</h3>
+          <ul>
+            <li>标题少字，尽量 ≤ 8 个字</li>
+            <li>留白优先，信息第二</li>
+            <li>少感叹号、少热词</li>
+          </ul>
+          <h3>推荐标题示例</h3>
+          <div class="code">桌边小托盘 01
+窗台花盆 02
+一盏不打扰的小灯</div>
+        </div>
+
+        <div class="card">
+          <h2>10. 文案语气（高级感来源）</h2>
+          <h3>推荐</h3>
+          <ul>
+            <li>更稳定 / 更顺手 / 更耐看 / 更通透 / 更克制</li>
+            <li>“我改了哪里”“为什么这样更舒服”</li>
+          </ul>
+          <h3>避免</h3>
+          <ul>
+            <li>“好高级/好有设计感”这类自夸式表达</li>
+          </ul>
+          <div class="rule"><b>原则：</b>讲事实，观众自己得出“高级”。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="photo">
+      <div class="grid">
+        <div class="card">
+          <h2>11. 摄影与画面规则</h2>
+          <h3>背景</h3>
+          <ul>
+            <li>奶白、暖灰、木色、石材（低饱和、干净）</li>
+            <li>避免杂乱桌面、强纹理背景抢戏</li>
+          </ul>
+          <h3>光</h3>
+          <ul>
+            <li>自然光/柔光，阴影干净</li>
+            <li>避免强反光与硬影</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>12. 构图模板（建议固定）</h2>
+          <ul>
+            <li>画面留白 ≥ 60%</li>
+            <li>产品占画面 20%～35%</li>
+            <li>Logo 放角落：右下/左下（不要压在产品上）</li>
+          </ul>
+          <div class="rule"><b>推荐：</b>像画廊陈列一样拍，而不是摆摊展示。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="material">
+      <div class="grid">
+        <div class="card">
+          <h2>13. 材质与工艺气质（3D打印）</h2>
+          <ul>
+            <li><b>统一哑光</b>（高级感最稳）</li>
+            <li>允许轻微砂纹/细磨砂</li>
+            <li>尽量减少“亮面塑料感”和明显层纹</li>
+          </ul>
+          <div class="rule"><b>优先级：</b>先把表面质感做统一，再谈配色。</div>
+        </div>
+
+        <div class="card">
+          <h2>14. 工艺表达方式</h2>
+          <ul>
+            <li>少装饰，多“结构的小巧思”</li>
+            <li>细节呈现：倒角/接触面/稳定性/重心</li>
+            <li>用对比图讲“改动带来的舒适”</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="templates">
+      <div class="grid">
+        <div class="card">
+          <h2>15. 小红书封面模板</h2>
+          <ul>
+            <li>奶白底 + 产品大图 + 角落小 Logo</li>
+            <li>标题 ≤ 8 字，尽量一行</li>
+          </ul>
+          <div class="code">封面结构：
+[大留白]
+    [产品]
+(角落) Logo + 小标题</div>
+        </div>
+
+        <div class="card">
+          <h2>16. 说明卡模板（随包裹）</h2>
+          <ul>
+            <li>正面：产品名 + 一句话</li>
+            <li>背面：材质/使用方法/保养 + 署名</li>
+          </ul>
+          <div class="code">正面：
+桌边小托盘 01
+轻松，但讲究。
+
+背面：
+材质：
+使用：
+保养：
+Designed by pooki</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="checklist">
+      <div class="card">
+        <h2>17. 定稿检查清单（每次出图前）</h2>
+        <div class="two">
+          <div>
+            <ul>
+              <li>留白够不够？（安全区 ≥ 1d）</li>
+              <li>缩小到头像会不会糊成黑块？</li>
+              <li>文案是否能删掉一半词？</li>
+              <li>颜色是否 ≤ 3？是否低饱和？</li>
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li>是否避免了渐变/金属/强阴影？</li>
+              <li>产品表面质感是否统一（哑光优先）？</li>
+              <li>主视觉是否“像画廊陈列”而不吵？</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rule"><b>一句话：</b>少一点更高级，松一点更温柔。</div>
+      </div>
+    </section>
+
+    <footer>
+      pooki / 噗物 · Mini Brand Guide v0.1 · 建议作为“可迭代文档”，每出一批产品就微调一次规则
+    </footer>
+  </div>
+</body>
+</html>
